@@ -1,0 +1,135 @@
+//Napraviti implementaciju postorder metode koristeći stogove.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAXSIZE 1000
+
+struct node_ {
+     int x;
+     struct node_ *left;
+     struct node_ *right;
+};
+typedef struct node_ Node;
+
+struct StackN_ {
+    int SP;
+    Node *data[MAXSIZE];
+};
+typedef struct StackN_ StackN;
+
+void ClearN(StackN *s) {
+    s->SP = 0;
+}
+
+void PushN(StackN *s, Node *x) {
+    if (s->SP==MAXSIZE) {
+        puts("Stack overflow... Aborting...");
+        exit(1);
+    }
+    s->data[s->SP] = x;
+    s->SP++;
+}
+
+Node *PopN(StackN *s) {
+    if (s->SP==0) {
+        puts("Illegal pop... Aborting...");
+        exit(2);
+    }
+    s->SP--;
+    return s->data[s->SP];
+}
+
+Node *PeekN(StackN s) {
+    if (s.SP==0) return NULL;
+    return s.data[s.SP-1];    
+}
+
+int Is_emptyN(StackN s) {
+    if (s.SP==0) return 1;
+    return 0;
+}
+
+void PostorderDynItr(Node *node)
+{
+    if (node == NULL) return;
+
+    StackN stack;
+    ClearN(&stack);
+
+    do {
+        while (node)
+        {
+            if (node->right!=NULL)
+                PushN(&stack, node->right);
+
+            PushN(&stack, node);
+            node = node->left;
+        }
+        node = PopN(&stack);
+        if (node->right!=NULL && PeekN(stack)==node->right) {
+            PopN(&stack);
+            PushN(&stack, node);
+            node = node->right;
+        }
+        else {
+            printf("%d ", node->x);
+            node = NULL;
+        }
+    } while (!Is_emptyN(stack));
+}
+
+int nadjiP(Node *node, int X, Node **parent){
+
+    if(node == NULL) return 0;
+    if(node->x == X) return 1;
+    *parent = node;
+    if(node->x > X) return nadjiP(node->left,X,parent);
+    else return nadjiP(node->right,X,parent);
+}
+
+Node* dodajP(Node *node, int X){
+
+    Node* parent = NULL , *newNode;
+
+    if(nadjiP(node,X,&parent)){
+        printf("\nElement vec postoji!\n");
+        return node;
+    }
+    else{
+        newNode = (Node*)malloc(sizeof(Node));
+        newNode->x = X;
+        newNode->left = newNode->right = NULL;
+        if(parent == NULL) return newNode;
+        else
+            if(X<parent->x) parent->left = newNode;
+            else parent->right = newNode;
+    }
+}
+
+int main(){
+
+    Node *root = NULL;
+    int X;
+    
+    printf("Unesite elemente PBS, za izlaz iz unosa unesite vrijednost '0': \n");
+    do{
+
+        scanf("%d", &X);
+        if(X==0){
+            printf("Prekida se unos elemenata!\n");
+            break;
+        }
+        if(root == NULL) root = dodajP(root, X);
+        else dodajP(root, X);
+            
+
+    }while(X!=0);
+
+printf("PostorderDynItr: "); 
+PostorderDynItr(root);
+
+return 0;
+
+
+}

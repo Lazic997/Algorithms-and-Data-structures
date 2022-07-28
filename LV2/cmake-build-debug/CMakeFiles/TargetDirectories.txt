@@ -1,0 +1,3 @@
+C:/Users/lazic/Documents/FERIT/Algoritmi i Strukture/LV2/cmake-build-debug/CMakeFiles/LV2.dir
+C:/Users/lazic/Documents/FERIT/Algoritmi i Strukture/LV2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/lazic/Documents/FERIT/Algoritmi i Strukture/LV2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
